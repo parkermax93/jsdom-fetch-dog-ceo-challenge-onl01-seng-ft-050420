@@ -17,3 +17,42 @@ function renderImages(images) {
     div.appendChild(img);
   });
 }
+
+function fetchBreed() {
+  return fetch(breedUrl)
+  .then(resp => resp.json())
+  .then(json => renderBreed(Object.keys(json.message)))
+}
+
+function renderBreed(breeds) {
+  const ul = document.getElementByID('dog-breeds');
+  const select = document.getElementById('breed-dropdown');
+  
+  breeds.forEach(breed => {
+    const li = document.createElement('li');
+    li.innerText = breed;
+    ul.appendChild(li);
+    
+    li.addEventListener('click', function() {
+      li.style.color = 'firebrick';
+    })
+  })
+  
+  select.addeventListener('change', function() {
+    const letter = select.value;
+    const lis = ul.getElementsByTagName('li');
+    Array.from(list).forEach(li => {
+      const firstLetter = li.innerText[0];
+      if (firstLetter == letter) {
+        li.style.display = '';
+      } else { 
+        li.style.display = 'none';
+      }
+    })
+  });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  fetchImg();
+  fetchBreed();
+});
